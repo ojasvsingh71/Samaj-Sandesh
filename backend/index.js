@@ -1,12 +1,17 @@
 import express from "express"
 import dotenv from "dotenv"
 import connectDB from "./lib/connectDB.js";
+import AuthRouter from "./routes/auth.route.js"
 
 dotenv.config();
 
 const app = express();
 
+app.use(express.json());
+
 connectDB();
+
+app.use("/auth",AuthRouter);
 
 app.get("/",(req,res)=>{
     res.send("API is running");
