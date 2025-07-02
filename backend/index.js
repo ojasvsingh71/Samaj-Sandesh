@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv"
 import connectDB from "./lib/connectDB.js";
 import AuthRouter from "./routes/auth.route.js"
+import AnnouncemetRouter from "./routes/announcement.route.js"
 
 dotenv.config();
 
@@ -11,9 +12,10 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/auth",AuthRouter);
+app.use("/auth", AuthRouter);
+app.use("/announcement", AnnouncemetRouter);
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("API is running");
 })
 
