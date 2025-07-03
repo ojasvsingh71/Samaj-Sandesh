@@ -3,11 +3,16 @@ import dotenv from "dotenv"
 import connectDB from "./lib/connectDB.js";
 import AuthRouter from "./routes/auth.route.js"
 import AnnouncemetRouter from "./routes/announcement.route.js"
+import cors from "cors"
 
 dotenv.config();
 
 const app = express();
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}))
 app.use(express.json());
 
 connectDB();

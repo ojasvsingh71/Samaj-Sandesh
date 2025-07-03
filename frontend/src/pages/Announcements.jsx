@@ -6,7 +6,7 @@ export default function Announcements() {
   const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
-    api.get("/announcement")
+    api.get("/announcement/all")
       .then(res => setAnnouncements(res.data))
       .catch(() => alert("Failed to load announcements"));
   }, []);

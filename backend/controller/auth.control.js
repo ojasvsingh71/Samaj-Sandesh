@@ -80,4 +80,13 @@ const login = async (req, res) => {
     }
 }
 
-export default { register, login }
+const getme = async (req, res) => {
+    try {
+        const user = await userModel.findById(req.user.id).select("password");
+        res.json(user);
+    } catch (err) {
+        res.status(500).json({ message: "Could not fetch user" });
+    }
+}
+
+export default { register, login, getme }

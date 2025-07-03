@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Announcements from "./pages/Announcements";
 import CreateAnnouncement from "./pages/CreateAnnouncement";
+import Register from "./pages/Register";
 
 export default function App() {
   return (
@@ -13,17 +14,18 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route 
-            path="/announcements" 
-            element={<Announcements />} 
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/announcements"
+            element={<Announcements />}
           />
-          <Route 
-            path="/announcements/new" 
+          <Route
+            path="/announcements/new"
             element={
               <ProtectedRoute>
                 <CreateAnnouncement />
               </ProtectedRoute>
-            } 
+            }
           />
         </Routes>
       </BrowserRouter>
