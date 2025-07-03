@@ -1,11 +1,32 @@
-import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Announcements from "./pages/Announcements";
+import CreateAnnouncement from "./pages/CreateAnnouncement";
 
-function App(){
+export default function App() {
   return (
-    <div className="min-h-screen bg-indigo-400 flex items-center justify-center">
-      <h1 className="text-4xl front-bold">Samaj Sandesh</h1>
-    </div>
-  )
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route 
+            path="/announcements" 
+            element={<Announcements />} 
+          />
+          <Route 
+            path="/announcements/new" 
+            element={
+              <ProtectedRoute>
+                <CreateAnnouncement />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
 }
-
-export default App;
