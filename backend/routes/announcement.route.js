@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get("/all", announcement.getAnnouncement);
 router.post("/add", verifyToken, isAdmin, announcement.createAnnouncement);
+router.delete("/:id", verifyToken, isAdmin, announcement.remove);
 
 export default router;

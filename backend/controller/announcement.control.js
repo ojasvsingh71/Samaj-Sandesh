@@ -33,4 +33,23 @@ const createAnnouncement = async (req, res) => {
     }
 }
 
-export default { createAnnouncement, getAnnouncement };
+const remove = async (req, res) => {
+    try {
+        const announcement = await announcementModel.findById(req.params.id);
+
+        if (!announcement) {
+            return res.status(404).json({
+                message: "Not found"
+            })
+        }
+
+        await announcement.deleteOne();
+        res.status(200).json({
+            message: "Announcement deleted!!@"
+        })
+    } catch (err) {
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+export default { createAnnouncement, getAnnouncement, remove };

@@ -5,8 +5,6 @@ import { AuthContext } from "../contexts/AuthContext";
 export default function Home() {
   const { user } = useContext(AuthContext);
 
-  console.log(user);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 dark:from-slate-800 dark:to-slate-900 flex flex-col items-center justify-center px-4">
       <div className="bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-10 max-w-md w-full text-center">
