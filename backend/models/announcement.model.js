@@ -13,7 +13,7 @@ const announcementSchema = new mongoose.Schema({
     author: {
         type: String
     },
-    datePosted: {
+    createdAt: {
         type: Date,
         default: Date.now
     },

@@ -39,7 +39,7 @@ const register = async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password} = req.body;
 
     try {
         const user = await userModel.findOne({ email });
@@ -69,7 +69,8 @@ const login = async (req, res) => {
             token,
             user: {
                 id: user._id,
-                email: user.email
+                email: user.email,
+                role:user.role
             }
         })
     } catch (err) {

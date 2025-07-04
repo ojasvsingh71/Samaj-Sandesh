@@ -2,7 +2,7 @@ import announcementModel from "../models/announcement.model.js";
 
 const getAnnouncement = async (req, res) => {
     try {
-        const announcements = await announcementModel.find().sort({ datePosted: -1 });
+        const announcements = await announcementModel.find().sort({ CreatedAt: -1 });
         res.json(announcements);
     } catch (err) {
         res.staus(500).json({
@@ -13,13 +13,13 @@ const getAnnouncement = async (req, res) => {
 
 const createAnnouncement = async (req, res) => {
     try {
-        const { title, body, author, expiresAt } = req.body;
+        const { title, body, author, CreatedAt } = req.body;
 
         const newAnnouncement = await announcementModel.create({
             title,
             body,
             author,
-            expiresAt
+            CreatedAt
         });
 
         res.status(201).json({
