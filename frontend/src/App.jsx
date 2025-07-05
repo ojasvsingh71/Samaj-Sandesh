@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Announcements from "./pages/Announcements";
 import CreateAnnouncement from "./pages/CreateAnnouncement";
 import Register from "./pages/Register";
+import NewsPage from "./pages/NewsPage";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/news" element={<NewsPage />} />
           <Route
             path="/announcements"
             element={

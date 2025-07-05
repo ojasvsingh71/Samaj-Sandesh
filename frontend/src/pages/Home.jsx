@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { Megaphone, LogIn, UserPlus, PlusCircle, Home as HomeIcon} from "lucide-react";
+import { Megaphone, LogIn, UserPlus, PlusCircle, Home as HomeIcon } from "lucide-react";
 
 export default function Home() {
   const { user } = useContext(AuthContext);
@@ -56,6 +56,13 @@ export default function Home() {
               Create Announcement
             </Link>
           )}
+          <Link
+            to="/news"
+            className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+          >
+            📰 View News
+          </Link>
+
         </div>
       </div>
     </div>
