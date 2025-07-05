@@ -7,7 +7,7 @@ const news = async (req, res) => {
                 q: "global",
                 language: "en",
                 sortBy: "publishedAt",
-                pageSize: 20,
+                pageSize: 50,
                 apiKey: process.env.NEWS_API_KEY,
             },
         });
