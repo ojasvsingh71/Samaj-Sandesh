@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axios";
+import { Megaphone, Loader2, ArrowLeft } from "lucide-react";
 
 export default function CreateAnnouncement() {
   const [title, setTitle] = useState("");
@@ -23,13 +24,21 @@ export default function CreateAnnouncement() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-100 dark:from-slate-800 dark:to-slate-900 flex items-center justify-center px-4 py-10">
-      <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur shadow-lg rounded-2xl p-8 w-full max-w-xl">
-        <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-400 mb-6">
-          ✍️ Create Announcement
-        </h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-pink-100 dark:from-slate-800 dark:to-slate-900 flex items-center justify-center px-4 py-12">
+      <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-md shadow-2xl rounded-3xl px-8 py-10 max-w-2xl w-full transition-all">
+        <div className="mb-6 text-center">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Megaphone className="text-blue-600 dark:text-blue-400" />
+            <h2 className="text-3xl font-extrabold text-blue-700 dark:text-white">
+              Create Announcement
+            </h2>
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            Share important updates with your community
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
               Title
@@ -39,8 +48,8 @@ export default function CreateAnnouncement() {
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Enter a short title"
-              className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-green-400 focus:outline-none"
+              placeholder="Enter a short and clear title"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-slate-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
             />
           </div>
 
@@ -53,8 +62,8 @@ export default function CreateAnnouncement() {
               required
               value={body}
               onChange={(e) => setBody(e.target.value)}
-              placeholder="Write your announcement here..."
-              className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-green-400 focus:outline-none"
+              placeholder="Write the announcement details here..."
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-slate-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
             />
           </div>
 
@@ -66,22 +75,37 @@ export default function CreateAnnouncement() {
               type="date"
               value={expiresAt}
               onChange={(e) => setExpiresAt(e.target.value)}
-              className="w-full px-4 py-2 border rounded-lg bg-white dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-green-400 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-slate-700 focus:ring-2 focus:ring-blue-400 focus:outline-none transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 text-white font-semibold rounded-lg transition shadow ${
+            className={`w-full py-2 text-white font-semibold rounded-xl transition shadow-md flex items-center justify-center ${
               loading
-                ? "bg-green-300 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700"
+                ? "bg-blue-300 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {loading ? "Posting..." : "Post Announcement"}
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin w-4 h-4 mr-2" /> Posting...
+              </>
+            ) : (
+              "Post Announcement"
+            )}
           </button>
         </form>
+
+        <div className="text-center mt-6">
+          <Link
+            to="/announcements"
+            className="inline-flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            <ArrowLeft size={16} /> Back to Announcements
+          </Link>
+        </div>
       </div>
     </div>
   );
