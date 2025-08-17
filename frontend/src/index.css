@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Ensure proper theme transitions */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
 /* Custom animations */
 @keyframes pulse {
   0%, 100% {
@@ -72,4 +77,22 @@ html {
 .focus-visible:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
+}
+
+/* Improved dark mode transitions */
+.dark {
+  color-scheme: dark;
+}
+
+/* Better backdrop blur support */
+@supports (backdrop-filter: blur(10px)) {
+  .backdrop-blur-sm {
+    backdrop-filter: blur(4px);
+  }
+  .backdrop-blur-md {
+    backdrop-filter: blur(12px);
+  }
+  .backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+  }
 }

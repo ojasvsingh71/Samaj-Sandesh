@@ -4,6 +4,7 @@ import connectDB from "./lib/connectDB.js";
 import AuthRouter from "./routes/auth.route.js"
 import AnnouncemetRouter from "./routes/announcement.route.js"
 import NewsRouter from "./routes/news.route.js"
+import WeatherRouter from "./routes/weather.route.js"
 import cors from "cors"
 
 dotenv.config();
@@ -33,6 +34,7 @@ connectDB();
 app.use("/auth", AuthRouter);
 app.use("/announcement", AnnouncemetRouter);
 app.use("/news", NewsRouter);
+app.use("/weather", WeatherRouter);
 
 app.get("/", (req, res) => {
     res.send("API is running");

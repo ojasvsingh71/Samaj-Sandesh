@@ -4,6 +4,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { Megaphone, LogIn, UserPlus, PlusCircle, Home as HomeIcon, Newspaper, LogOut, Sparkles } from "lucide-react";
 import ThemeToggle from "../components/ThemeToggle";
 import AnimatedCard from "../components/AnimatedCard";
+import WeatherWidget from "../components/WeatherWidget";
 
 export default function Home() {
   const { user, logout } = useContext(AuthContext);
@@ -56,6 +57,11 @@ export default function Home() {
 
           {/* Action Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {/* Weather Widget - Always visible */}
+            <div className="md:col-span-2 lg:col-span-1">
+              <WeatherWidget />
+            </div>
+
             {!user && (
               <>
                 <AnimatedCard>

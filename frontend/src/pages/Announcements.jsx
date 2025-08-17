@@ -7,6 +7,7 @@ import { Megaphone, ArrowLeft, Plus, Search } from "lucide-react";
 import ThemeToggle from "../components/ThemeToggle";
 import LoadingSpinner from "../components/LoadingSpinner";
 import AnimatedCard from "../components/AnimatedCard";
+import WeatherWidget from "../components/WeatherWidget";
 
 export default function Announcements() {
   const { user } = useContext(AuthContext);
@@ -58,41 +59,48 @@ export default function Announcements() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
-        <AnimatedCard className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-2xl p-6 mb-8 border border-white/20 dark:border-slate-700/50">
-          <div className="text-center mb-6">
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="p-3 bg-blue-100 dark:bg-blue-900/50 rounded-full">
-                <Megaphone className="text-blue-600 dark:text-blue-400 w-8 h-8" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+          <div className="lg:col-span-2">
+            <AnimatedCard className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg rounded-2xl p-6 border border-white/20 dark:border-slate-700/50 h-full">
+              <div className="text-center mb-6">
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/50 rounded-full">
+                    <Megaphone className="text-blue-600 dark:text-blue-400 w-8 h-8" />
+                  </div>
+                </div>
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-2">
+                  Community Announcements
+                </h1>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Stay informed with the latest community updates and important notices
+                </p>
               </div>
-            </div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-2">
-              Community Announcements
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300">
-              Stay informed with the latest community updates and important notices
-            </p>
-          </div>
 
-          {/* Action buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
-            >
-              <ArrowLeft size={18} />
-              Back to Home
-            </Link>
-            {user?.role === "admin" && (
-              <Link
-                to="/announcements/new"
-                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
-              >
-                <Plus size={18} />
-                Create New
-              </Link>
-            )}
+              {/* Action buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link
+                  to="/"
+                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
+                >
+                  <ArrowLeft size={18} />
+                  Back to Home
+                </Link>
+                {user?.role === "admin" && (
+                  <Link
+                    to="/announcements/new"
+                    className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
+                  >
+                    <Plus size={18} />
+                    Create New
+                  </Link>
+                )}
+              </div>
+            </AnimatedCard>
           </div>
-        </AnimatedCard>
+          <div>
+            <WeatherWidget />
+          </div>
+        </div>
 
         {/* Search bar */}
         <AnimatedCard className="bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm rounded-2xl p-4 mb-8 border border-white/20 dark:border-slate-700/50">
