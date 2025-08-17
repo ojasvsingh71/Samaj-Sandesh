@@ -24,7 +24,7 @@ const weatherIcons = {
   '50n': Cloud,
 };
 
-export default function WeatherWidget({ city = "New York" }) {
+export default function WeatherWidget({ city = "Ghaziabad" }) {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -42,9 +42,10 @@ export default function WeatherWidget({ city = "New York" }) {
       } else {
         url += `?city=${encodeURIComponent(cityName)}`;
       }
-      
+
       const response = await api.get(url);
       setWeather(response.data);
+      console.log('Weather data:', response.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch weather data');
     } finally {
@@ -60,7 +61,7 @@ export default function WeatherWidget({ city = "New York" }) {
 
     setUseLocation(true);
     setLoading(true);
-    
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const coordinates = {
@@ -68,6 +69,8 @@ export default function WeatherWidget({ city = "New York" }) {
           longitude: position.coords.longitude
         };
         fetchWeather('Current Location', coordinates);
+        console.log('Current location:', coordinates);
+
       },
       (error) => {
         setUseLocation(false);
@@ -136,7 +139,7 @@ export default function WeatherWidget({ city = "New York" }) {
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16"></div>
       <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
-      
+
       <div className="relative z-10">
         {/* Search form */}
         <form onSubmit={handleSearch} className="mb-4">
@@ -214,9 +217,9 @@ export default function WeatherWidget({ city = "New York" }) {
         <div className="mt-4 pt-3 border-t border-white/20">
           <p className="text-xs opacity-70 text-center">
             Weather data by{' '}
-            <a 
-              href="https://open-meteo.com/" 
-              target="_blank" 
+            <a
+              href="https://open-meteo.com/"
+              target="_blank"
               rel="noopener noreferrer"
               className="underline hover:opacity-100 transition-opacity"
             >

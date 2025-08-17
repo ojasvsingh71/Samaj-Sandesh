@@ -34,18 +34,19 @@ const weatherCodeMap = {
 
 // Function to get coordinates from city name using Open-Meteo's geocoding API
 const getCoordinates = async (city) => {
+  console.log(city);
   const geocodeUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
-  
+
   const response = await fetch(geocodeUrl);
   if (!response.ok) {
     throw new Error('Failed to geocode city');
   }
-  
+
   const data = await response.json();
   if (!data.results || data.results.length === 0) {
     throw new Error('City not found');
   }
-  
+  console.log(data.results)
   return {
     latitude: data.results[0].latitude,
     longitude: data.results[0].longitude,
@@ -74,7 +75,7 @@ const getWeather = async (req, res) => {
 
     // Fetch weather data from Open-Meteo
     const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${locationInfo.latitude}&longitude=${locationInfo.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,surface_pressure&timezone=auto`;
-    
+
     const weatherResponse = await fetch(weatherUrl);
     if (!weatherResponse.ok) {
       throw new Error('Failed to fetch weather data');
@@ -82,11 +83,11 @@ const getWeather = async (req, res) => {
 
     const weatherData = await weatherResponse.json();
     const current = weatherData.current;
-    
+
     // Map weather code to description and icon
-    const weatherInfo = weatherCodeMap[current.weather_code] || { 
-      description: "Unknown", 
-      icon: "01d" 
+    const weatherInfo = weatherCodeMap[current.weather_code] || {
+      description: "Unknown",
+      icon: "01d"
     };
 
     const formattedWeather = {

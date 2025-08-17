@@ -9,7 +9,7 @@ export default function NewsPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 relative">
       <ThemeToggle />
-      
+
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 right-20 w-64 h-64 bg-blue-200 dark:bg-blue-900 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-xl opacity-30 animate-pulse"></div>
@@ -29,14 +29,14 @@ export default function NewsPage() {
                     <Globe className="text-purple-600 dark:text-purple-400 w-8 h-8" />
                   </div>
                 </div>
-                
+
                 <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent mb-4">
                   Global News Hub
                 </h1>
                 <p className="text-gray-600 dark:text-gray-300 text-lg mb-6 max-w-2xl mx-auto">
                   Stay informed with the latest headlines from around the world. Fresh news delivered in real-time.
                 </p>
-                
+
                 <Link
                   to="/"
                   className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl transition-all duration-300 hover:scale-105 shadow-lg"
@@ -48,13 +48,12 @@ export default function NewsPage() {
             </div>
             <div>
               <WeatherWidget />
-              </div>
             </div>
           </div>
         </div>
-        
-        <NewsSection />
       </div>
+
+      <NewsSection />
     </div>
   );
 }
