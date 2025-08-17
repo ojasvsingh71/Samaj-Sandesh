@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Cloud, Sun, CloudRain, CloudSnow, Wind, Droplets, Thermometer, Eye, MapPin, RefreshCw } from 'lucide-react';
+import { Cloud, Sun, CloudRain, CloudSnow, Wind, Droplets, Thermometer, Eye, MapPin, RefreshCw, Navigation } from 'lucide-react';
 import api from '../api/axios';
 import AnimatedCard from './AnimatedCard';
 
@@ -30,12 +30,20 @@ export default function WeatherWidget({ city = "New York" }) {
   const [error, setError] = useState(null);
   const [searchCity, setSearchCity] = useState(city);
   const [inputCity, setInputCity] = useState(city);
+  const [useLocation, setUseLocation] = useState(false);
 
-  const fetchWeather = async (cityName = searchCity) => {
+  const fetchWeather = async (cityName = searchCity, coordinates = null) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await api.get(`/weather/current?city=${encodeURIComponent(cityName)}`);
+      let url = '/weather/current';
+      if (coordinates) {
+        url += `?lat=${coordinates.latitude}&lon=${coordinates.longitude}&city=${encodeURIComponent('Current Location')}`;
+      } else {
+        url += `?city=${encodeURIComponent(cityName)}`;
+      }
+      
+      const response = await api.get(url);
       setWeather(response.data);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch weather data');
@@ -44,13 +52,42 @@ export default function WeatherWidget({ city = "New York" }) {
     }
   };
 
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      setError('Geolocation is not supported by this browser');
+      return;
+    }
+
+    setUseLocation(true);
+    setLoading(true);
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const coordinates = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+        fetchWeather('Current Location', coordinates);
+      },
+      (error) => {
+        setUseLocation(false);
+        setError('Unable to retrieve your location');
+        setLoading(false);
+      },
+      { timeout: 10000, enableHighAccuracy: true }
+    );
+  };
+
   useEffect(() => {
-    fetchWeather();
+    if (!useLocation) {
+      fetchWeather();
+    }
   }, [searchCity]);
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (inputCity.trim()) {
+      setUseLocation(false);
       setSearchCity(inputCity.trim());
     }
   };
@@ -74,13 +111,21 @@ export default function WeatherWidget({ city = "New York" }) {
         <div className="text-center">
           <Cloud className="w-12 h-12 mx-auto mb-2 opacity-70" />
           <p className="font-medium mb-2">Weather Unavailable</p>
-          <p className="text-sm opacity-90">{error}</p>
-          <button
-            onClick={() => fetchWeather()}
-            className="mt-3 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-300 text-sm"
-          >
-            Try Again
-          </button>
+          <p className="text-sm opacity-90 mb-3">{error}</p>
+          <div className="flex gap-2 justify-center">
+            <button
+              onClick={() => fetchWeather()}
+              className="px-3 py-1 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-300 text-sm"
+            >
+              Try Again
+            </button>
+            <button
+              onClick={getCurrentLocation}
+              className="px-3 py-1 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-300 text-sm"
+            >
+              Use Location
+            </button>
+          </div>
         </div>
       </AnimatedCard>
     );
@@ -106,8 +151,17 @@ export default function WeatherWidget({ city = "New York" }) {
             <button
               type="submit"
               className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-300"
+              title="Search city"
             >
               <MapPin className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={getCurrentLocation}
+              className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors duration-300"
+              title="Use current location"
+            >
+              <Navigation className="w-4 h-4" />
             </button>
           </div>
         </form>
@@ -117,7 +171,9 @@ export default function WeatherWidget({ city = "New York" }) {
           <div>
             <div className="flex items-center gap-2 mb-1">
               <MapPin className="w-4 h-4" />
-              <span className="text-lg font-semibold">{weather.city}, {weather.country}</span>
+              <span className="text-lg font-semibold">
+                {weather.city}{weather.country && `, ${weather.country}`}
+              </span>
             </div>
             <div className="text-3xl font-bold">{weather.temperature}°C</div>
             <div className="text-sm opacity-90 capitalize">{weather.description}</div>
@@ -125,7 +181,7 @@ export default function WeatherWidget({ city = "New York" }) {
           <div className="text-right">
             <WeatherIcon className="w-16 h-16 mb-2" />
             <button
-              onClick={() => fetchWeather()}
+              onClick={() => useLocation ? getCurrentLocation() : fetchWeather()}
               className="p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors duration-300"
               title="Refresh weather"
             >
@@ -152,6 +208,21 @@ export default function WeatherWidget({ city = "New York" }) {
             <Eye className="w-4 h-4" />
             <span>{weather.pressure} hPa</span>
           </div>
+        </div>
+
+        {/* Data source attribution */}
+        <div className="mt-4 pt-3 border-t border-white/20">
+          <p className="text-xs opacity-70 text-center">
+            Weather data by{' '}
+            <a 
+              href="https://open-meteo.com/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="underline hover:opacity-100 transition-opacity"
+            >
+              Open-Meteo
+            </a>
+          </p>
         </div>
       </div>
     </AnimatedCard>
